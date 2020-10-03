@@ -31,7 +31,7 @@ const productSchema = mongoose.Schema(
     },
     email: {
       type: String,
-      required: true,
+      required: false,
     },
     brand: {
       type: String,
