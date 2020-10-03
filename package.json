@@ -1,0 +1,22 @@
+{
+  "name": "react-ecomerce",
+  "version": "1.0.0",
+  "description": "MERN Shopping card",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/server"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yimialmonte/mern-stack-ecommerce.git"
+  },
+  "author": "Yelmi Almonte",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yimialmonte/mern-stack-ecommerce/issues"
+  },
+  "homepage": "https://github.com/yimialmonte/mern-stack-ecommerce#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
