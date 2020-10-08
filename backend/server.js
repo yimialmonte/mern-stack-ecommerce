@@ -4,13 +4,17 @@ import cors from "cors";
 import colors from 'colors'
 import connectDB from "./config/db.js";
 import productRouter from './routers/product.js'
+import userRouter from './routers/userRoute.js'
 import { errorHandler, notFound } from './middleware/errorMiddleware.js'
+
 dotenv.config();
 connectDB();
 
 const app = express();
+app.use(express.json());
 app.use(cors())
 app.use("/api/products", productRouter);
+app.use("/api/users", userRouter);
 
 
 app.use(notFound)
