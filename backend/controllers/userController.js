@@ -1,7 +1,8 @@
 import express from 'express';
 import AsynHandler from 'express-async-handler';
 import User from '../models/user.js';
-import { generateToken } from '../utils/generateToken.js'
+import { generateToken } from '../utils/generateToken.js';
+
 // @desc  Auth user & get token
 // @route POST /api/user/login
 // @access Public
@@ -15,12 +16,31 @@ const authUser = AsynHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      token: generateToken(user._id)
+      token: generateToken(user._id),
     });
   } else {
-    res.status(401)
-    throw new Error('Invalid email or password')
+    res.status(401);
+    throw new Error('Invalid email or password');
   }
 });
 
-export { authUser };
+// @desc  Get user profile
+// @route POST /api/users/profile
+// @access Private
+const getUserProfile = AsynHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  res.json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    isAdmin: user.isAdmin,
+  });
+});
+
+export { authUser, getUserProfile };
