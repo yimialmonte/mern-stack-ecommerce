@@ -43,6 +43,34 @@ const getUserProfile = AsynHandler(async (req, res) => {
   });
 });
 
+// @desc  Update user profile
+// @route PUT /api/users/profile
+// @access Private
+const updateUserProfile = AsynHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+  const { name, email, password } = req.body;
+
+  if (!user) {
+    res.status(404);
+    throw new Error('User not found');
+  }
+
+  user.name = name || user.name;
+  user.email = email || user.email;
+
+  if (password) {
+    user.password = password;
+  }
+
+  const updateUser = await user.save();
+  res.json({
+    _id: updateUser._id,
+    name: updateUser.name,
+    email: updateUser.email,
+    isAdmin: updateUser.isAdmin,
+  });
+});
+
 // @desc  Register new user
 // @route POST /api/users
 // @access Public
@@ -64,12 +92,12 @@ const registerUser = AsynHandler(async (req, res) => {
       name: user.name,
       email: user.email,
       isAdmin: user.isAdmin,
-      token: generateToken(user._id)
+      token: generateToken(user._id),
     });
   } else {
-    res.status(400)
-    throw new Error('Invalid user data')
+    res.status(400);
+    throw new Error('Invalid user data');
   }
 });
 
-export { authUser, getUserProfile, registerUser };
+export { authUser, getUserProfile, registerUser, updateUserProfile };
