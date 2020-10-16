@@ -21,6 +21,7 @@ const addOrderItems = AsynHandler(async (req, res) => {
     throw new Error('No order items');
   } else {
     const order = new Order({
+      user: req.user,
       orderItems,
       shippingAddress,
       paymentMethod,
