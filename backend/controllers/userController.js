@@ -140,7 +140,7 @@ const getUserById = AsynHandler(async (req, res) => {
 // @access Private/Admin
 const updateUser = AsynHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
-  const { name, email } = req.body;
+  const { name, email, isAdmin } = req.body;
 
   if (!user) {
     res.status(404);
@@ -149,6 +149,7 @@ const updateUser = AsynHandler(async (req, res) => {
 
   user.name = name || user.name;
   user.email = email || user.email;
+  user.isAdmin = isAdmin;
 
   const updateUser = await user.save();
   res.json({
