@@ -114,7 +114,7 @@ const OrderScreen = ({ match }) => {
 
             <ListGroup.Item>
               <h2>Order Items</h2>
-              {order.orderItems.length == 0 ? (
+              {order.orderItems.length === 0 ? (
                 <Message>Order is empty</Message>
               ) : (
                 <ListGroup>
