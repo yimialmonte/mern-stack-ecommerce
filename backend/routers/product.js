@@ -1,8 +1,16 @@
 import express from 'express';
 const router = express.Router();
-import { getProductById, getProducts } from '../controllers/productController.js'
+import { protect, isUserAdmin } from '../middleware/authMiddleware.js';
+import {
+  getProductById,
+  getProducts,
+  deleteProduct,
+} from '../controllers/productController.js';
 
 router.route('/').get(getProducts);
-router.route('/:id').get(getProductById);
+router
+  .route('/:id')
+  .get(getProductById)
+  .delete(protect, isUserAdmin, deleteProduct);
 
 export default router;
