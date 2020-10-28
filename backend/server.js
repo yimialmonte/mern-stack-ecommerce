@@ -3,6 +3,7 @@ import path from 'path'
 import dotenv from "dotenv";
 import cors from "cors";
 import colors from 'colors'
+import morgan from 'morgan'
 import connectDB from "./config/db.js";
 import productRouter from './routers/product.js'
 import userRouter from './routers/userRoute.js'
@@ -14,6 +15,11 @@ dotenv.config();
 connectDB();
 
 const app = express();
+
+if(process.env.NODE_ENV === 'development') {
+  app.use(morgan('dev'))
+}
+
 app.use(cors())
 app.use(express.json());
 app.use("/api/products", productRouter);
