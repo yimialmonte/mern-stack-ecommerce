@@ -20,10 +20,12 @@ import {
 } from '../constants/productConstant';
 import axios from 'axios';
 
-export const listProducts = () => async (dispatch) => {
+export const listProducts = (keyword = '') => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_LIST_REQUEST });
-    const { data } = await axios.get('http://localhost:5000/api/products');
+    const { data } = await axios.get(
+      `http://localhost:5000/api/products?keyword=${keyword}`
+    );
     dispatch({ type: PRODUCT_LIST_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -36,11 +38,12 @@ export const listProducts = () => async (dispatch) => {
   }
 };
 
-
 export const listProductDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: PRODUCT_DETAILS_REQUEST });
-    const { data } = await axios.get(`http://localhost:5000/api/products/${id}`);
+    const { data } = await axios.get(
+      `http://localhost:5000/api/products/${id}`
+    );
     dispatch({ type: PRODUCT_DETAILS_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
@@ -52,7 +55,6 @@ export const listProductDetails = (id) => async (dispatch) => {
     });
   }
 };
-
 
 export const deleteProduct = (id) => async (dispatch, getState) => {
   try {
@@ -71,7 +73,6 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
     await axios.delete(`http://localhost:5000/api/products/${id}`, config);
 
     dispatch({ type: PRODUCT_DELETE_SUCCESS });
-
   } catch (error) {
     dispatch({
       type: PRODUCT_DELETE_FAIL,
@@ -82,8 +83,6 @@ export const deleteProduct = (id) => async (dispatch, getState) => {
     });
   }
 };
-
-
 
 export const createProduct = () => async (dispatch, getState) => {
   try {
@@ -100,10 +99,13 @@ export const createProduct = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.post(`http://localhost:5000/api/products`, {}, config);
+    const { data } = await axios.post(
+      `http://localhost:5000/api/products`,
+      {},
+      config
+    );
 
     dispatch({ type: PRODUCT_CREATE_SUCCESS, payload: data });
-
   } catch (error) {
     dispatch({
       type: PRODUCT_CREATE_FAIL,
@@ -114,7 +116,6 @@ export const createProduct = () => async (dispatch, getState) => {
     });
   }
 };
-
 
 export const updateProduct = (product) => async (dispatch, getState) => {
   try {
@@ -131,10 +132,13 @@ export const updateProduct = (product) => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.put(`http://localhost:5000/api/products/${product._id}`, product, config);
+    const { data } = await axios.put(
+      `http://localhost:5000/api/products/${product._id}`,
+      product,
+      config
+    );
 
     dispatch({ type: PRODUCT_UPDATE_SUCCESS, payload: data });
-
   } catch (error) {
     dispatch({
       type: PRODUCT_UPDATE_FAIL,
@@ -146,8 +150,10 @@ export const updateProduct = (product) => async (dispatch, getState) => {
   }
 };
 
-
-export const createProductReview = (productId, review) => async (dispatch, getState) => {
+export const createProductReview = (productId, review) => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch({ type: PRODUCT_CREATE_REVIEW_REQUEST });
 
@@ -162,10 +168,13 @@ export const createProductReview = (productId, review) => async (dispatch, getSt
       },
     };
 
-    await axios.post(`http://localhost:5000/api/products/${productId}/reviews`, review, config);
+    await axios.post(
+      `http://localhost:5000/api/products/${productId}/reviews`,
+      review,
+      config
+    );
 
     dispatch({ type: PRODUCT_CREATE_REVIEW_SUCCESS });
-
   } catch (error) {
     dispatch({
       type: PRODUCT_CREATE_REVIEW_FAIL,
