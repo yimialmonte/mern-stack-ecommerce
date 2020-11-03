@@ -9,11 +9,13 @@ import {
   deleteProduct,
   createProduct,
 } from '../actions/productActions';
-import { PRODUCT_CREATE_REQUEST, PRODUCT_CREATE_RESET } from '../constants/productConstant';
+import { PRODUCT_CREATE_RESET } from '../constants/productConstant';
+import Paginate from '../components/Paginate';
 
 const ProductListScreen = ({ history, match }) => {
   const dispatch = useDispatch();
-  const { loading, error, products } = useSelector(
+  const pageNumber = match.params.pageNumber || 1;
+  const { loading, error, products, page, pages } = useSelector(
     (state) => state.productList
   );
 
@@ -42,7 +44,7 @@ const ProductListScreen = ({ history, match }) => {
     if (successCreate) {
       history.push(`/admin/product/${createdProduct._id}/edit`);
     } else {
-      dispatch(listProducts());
+      dispatch(listProducts('', pageNumber));
     }
   }, [
     dispatch,
@@ -51,6 +53,7 @@ const ProductListScreen = ({ history, match }) => {
     successDelete,
     successCreate,
     createProduct,
+    pageNumber
   ]);
 
   const deleteHandler = (id) => {
@@ -86,6 +89,7 @@ const ProductListScreen = ({ history, match }) => {
       ) : error ? (
         <Message variant="danger"> {error}</Message>
       ) : (
+        <>
         <Table striped bordered hover responsive className="table-sm">
           <thead>
             <tr>
@@ -123,6 +127,8 @@ const ProductListScreen = ({ history, match }) => {
             ))}
           </tbody>
         </Table>
+        <Paginate page={page} pages={pages} isAdmin={true}/>
+        </>
       )}
     </>
   );
